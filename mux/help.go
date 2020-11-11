@@ -54,7 +54,8 @@ func (m *Mux) Help(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) {
 	sort.Strings(keys)
 
 	// TODO: Learn more link needs to be configurable
-	resp := "\n*Commands can be abbreviated and mixed with other text.  Learn more at <https://github.com/bwmarrin/disgord>*\n"
+	resp := ""
+
 	resp += "```autoit\n"
 
 	v, ok := cmdmap["help"]
