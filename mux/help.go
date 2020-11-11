@@ -8,6 +8,16 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
+type MessageEmbedImage struct {
+	URL string `json:"url,omitempty"`
+}
+
+type MessageEmbed struct {
+	Title       string             `json:"title,omitempty"`
+	Description string             `json:"description,omitempty"`
+	Image       *MessageEmbedImage `json:"image,omitempty"`
+}
+
 // Help function provides a build in "help" command that will display a list
 // of all registered routes (commands). To use this function it must first be
 // registered with the Mux.Route function.
@@ -76,7 +86,16 @@ func (m *Mux) Help(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) {
 
 	resp += "```\n"
 
-	ds.ChannelMessageSend(dm.ChannelID, resp)
+	logo := "https://raw.githubusercontent.com/csivitu/Blob-CTF/dev/img/blob.png"
+
+	ds.ChannelMessageSendComplex(dm.ChannelID, &discordgo.MessageSend{
+		Embed: &discordgo.MessageEmbed{
+			Image: &discordgo.MessageEmbedImage{
+				URL: logo,
+			},
+		},
+		Content: resp,
+	})
 
 	return
 }
