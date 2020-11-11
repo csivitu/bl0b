@@ -1,6 +1,3 @@
-// Package mux provides a simple Discord message route multiplexer that
-// parses messages and then executes a matching registered handler, if found.
-// mux can be used with both Disgord and the DiscordGo library.
 package mux
 
 import (
@@ -45,7 +42,7 @@ type Mux struct {
 // New returns a new Discord message route mux
 func New() *Mux {
 	m := &Mux{}
-	m.Prefix = "-dg "
+	m.Prefix = "blob "
 	return m
 }
 
@@ -64,15 +61,12 @@ func (m *Mux) Route(pattern, desc string, cb HandlerFunc) (*Route, error) {
 // FuzzyMatch attempts to find the best route match for a given message.
 func (m *Mux) FuzzyMatch(msg string) (*Route, []string) {
 
-	// Tokenize the msg string into a slice of words
 	fields := strings.Fields(msg)
 
-	// no point to continue if there's no fields
 	if len(fields) == 0 {
 		return nil, nil
 	}
 
-	// Search though the command list for a match
 	var r *Route
 	var rank int
 
@@ -81,12 +75,10 @@ func (m *Mux) FuzzyMatch(msg string) (*Route, []string) {
 
 		for _, rv := range m.Routes {
 
-			// If we find an exact match, return that immediately.
 			if rv.Pattern == fv {
 				return rv, fields[fk:]
 			}
 
-			// Some "Fuzzy" searching...
 			if strings.HasPrefix(rv.Pattern, fv) {
 				if len(fv) > rank {
 					r = rv
@@ -119,19 +111,19 @@ func (m *Mux) OnMessageCreate(ds *discordgo.Session, mc *discordgo.MessageCreate
 	// Fetch the channel for this Message
 	var c *discordgo.Channel
 	c, err = ds.State.Channel(mc.ChannelID)
+
 	if err != nil {
-		// Try fetching via REST API
 		c, err = ds.Channel(mc.ChannelID)
 		if err != nil {
-			log.Printf("unable to fetch Channel for Message, %s", err)
+			log.Printf("Unable to fetch Channel for Message, %s", err)
 		} else {
-			// Attempt to add this channel into our State
 			err = ds.State.ChannelAdd(c)
 			if err != nil {
-				log.Printf("error updating State with Channel, %s", err)
+				log.Printf("Error updating State with Channel, %s", err)
 			}
 		}
 	}
+
 	// Add Channel info into Context (if we successfully got the channel)
 	if c != nil {
 		if c.Type == discordgo.ChannelTypeDM {
@@ -151,20 +143,16 @@ func (m *Mux) OnMessageCreate(ds *discordgo.Session, mc *discordgo.MessageCreate
 
 				reg := regexp.MustCompile(fmt.Sprintf("<@!?(%s)>", ds.State.User.ID))
 
-				// Was the @mention the first part of the string?
 				if reg.FindStringIndex(ctx.Content)[0] == 0 {
 					ctx.HasMentionFirst = true
 				}
 
-				// strip bot mention tags from content string
 				ctx.Content = reg.ReplaceAllString(ctx.Content, "")
-
 				break
 			}
 		}
 	}
 
-	// Detect prefix mention
 	if !ctx.IsDirected && len(m.Prefix) > 0 {
 
 		// TODO : Must be changed to support a per-guild user defined prefix
@@ -180,7 +168,6 @@ func (m *Mux) OnMessageCreate(ds *discordgo.Session, mc *discordgo.MessageCreate
 		return
 	}
 
-	// Try to find the "best match" command out of the message.
 	r, fl := m.FuzzyMatch(ctx.Content)
 	if r != nil {
 		ctx.Fields = fl
