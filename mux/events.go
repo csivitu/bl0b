@@ -28,6 +28,11 @@ func (m *Mux) Events(ds *discordgo.Session, dm *discordgo.Message, ctx *Context)
 		weight := strconv.FormatFloat(event.Weight, 'f', 2, 64)
 		
 		message += "**" + event.Title + "**\n"
+
+		message += "Organizers:\n"
+		for j := 0; j < len(event.Organizers); j++ {
+			message += strconv.Itoa(j + 1) + ". **" + event.Organizers[0].Name + "**\n"
+		}
 		message += "Weight: **" + weight + "**\n"
 		message += "Official URL: " + event.URL + "\n"
 		message += "CTFtime URL: " + event.CtftimeURL + "\n"
