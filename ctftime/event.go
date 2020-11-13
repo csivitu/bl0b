@@ -1,14 +1,10 @@
 package ctftime
 
-import (
-	"time"
-)
-
 // Event defines a single event obtained from CTFtime
 type Event struct {
 	Organizers    []Organizer `json:"organizers"`
 	OnSite        bool        `json:"onsite"`
-	Finish        time.Time   `json:"finish"`
+	Finish        string      `json:"finish"`
 	Description   string      `json:"description"`
 	Weight        float64     `json:"weight"`
 	Title         string      `json:"title"`
@@ -16,7 +12,7 @@ type Event struct {
 	IsVotableNow  bool        `json:"is_votable_now"`
 	Restrictions  string      `json:"restrictions"`
 	Format        string      `json:"format"`
-	Start         time.Time   `json:"start"`
+	Start         string      `json:"start"`
 	Participants  int         `json:"participants"`
 	CtftimeURL    string      `json:"ctftime_url"`
 	Location      string      `json:"location"`

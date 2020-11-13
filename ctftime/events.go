@@ -8,7 +8,7 @@ import (
 
 // GetEvents returns events between startTime and endTime. The number
 // of events is defined by the value of limit.
-func (ctf *CTFtime) GetEvents(limit int, startTime int, endTime int) (Events, error) {
+func (ctf *CTFtime) GetEvents(limit int, startTime int64, endTime int64) (Events, error) {
 	endpoint := fmt.Sprintf(
 		"/events/?limit=%d&start=%d&finish=%d",
 		limit,
