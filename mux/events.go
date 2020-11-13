@@ -9,8 +9,8 @@ import (
 	"github.com/csivitu/bl0b/ctftime"
 )
 
-// Events returns upcoming events in the next 5 days
-func (m *Mux) Events(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) {
+// UpcomingEvents returns upcoming events in the next 5 days
+func (m *Mux) UpcomingEvents(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) {
 	ctf := ctftime.New()
 
 	now := time.Now().Unix() * 1000
