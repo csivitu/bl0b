@@ -4,12 +4,12 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/csivitu/Blob-CTF">
+  <a href="https://github.com/csivitu/bl0b">
     <img src="https://csivit.com/images/favicon.png" alt="Logo" width="80">
   </a>
   <br />
-  <a href="https://github.com/csivitu/Blob-CTF">
-    <img src="https://raw.githubusercontent.com/csivitu/Blob-CTF/master/assets/images/blob.png" alt="Logo" width="80">
+  <a href="https://github.com/csivitu/bl0b">
+    <img src="https://raw.githubusercontent.com/csivitu/bl0b/master/assets/images/blob.png" alt="Logo" width="80">
   </a>
 
   <h3 align="center">bl0b</h3>
@@ -17,14 +17,14 @@
   <p align="center">
     YOUR_SHORT_DESCRIPTION
     <br />
-    <a href="https://github.com/csivitu/Blob-CTF"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/csivitu/bl0b"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/csivitu/Blob-CTF">View Demo</a>
+    <a href="https://github.com/csivitu/bl0b">View Demo</a>
     ·
-    <a href="https://github.com/csivitu/Blob-CTF/issues">Report Bug</a>
+    <a href="https://github.com/csivitu/bl0b/issues">Report Bug</a>
     ·
-    <a href="https://github.com/csivitu/Blob-CTF/issues">Request Feature</a>
+    <a href="https://github.com/csivitu/bl0b/issues">Request Feature</a>
   </p>
 </p>
 
@@ -53,7 +53,7 @@
 
 Here's a blank template to get started:
 **To avoid retyping too much info. Do a search and replace with your text editor for the following:**
-`csivitu`, `Blob-CTF`, `twitter_handle`, `email`
+`csivitu`, `bl0b`, `twitter_handle`, `email`
 
 
 ### Built With
@@ -81,7 +81,7 @@ npm install npm@latest -g
  
 1. Clone the repo
 ```sh
-git clone https://github.com/csivitu/Blob-CTF.git
+git clone https://github.com/csivitu/bl0b.git
 ```
 2. Install NPM packages
 ```sh
@@ -102,7 +102,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-See the [open issues](https://github.com/csivitu/Blob-CTF/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/csivitu/bl0b/issues) for a list of proposed features (and known issues).
 
 
 
@@ -132,4 +132,4 @@ Distributed under the MIT License. See [`LICENSE`](./LICENSE) for more informati
 [csivitu-shield]: https://img.shields.io/badge/csivitu-csivitu-blue
 [csivitu-url]: https://csivit.com
 [issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=flat-square
-[issues-url]: https://github.com/csivitu/Blob-CTF/issues
+[issues-url]: https://github.com/csivitu/bl0b/issues

@@ -1,4 +1,4 @@
-module github.com/csivitu/Blob-CTF
+module github.com/csivitu/bl0b
 
 go 1.15
 

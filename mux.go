@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/csivitu/Blob-CTF/mux"
+	"github.com/csivitu/bl0b/mux"
 )
 
 // Router is registered as a global variable to allow easy access to the
@@ -16,4 +16,5 @@ func init() {
 
 	// Register the build-in help command.
 	Router.Route("help", "Display this message.", Router.Help)
+	// Router.Route("")
 }
