@@ -76,7 +76,7 @@ func (m *Mux) Help(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) {
 
 	resp += "```\n"
 
-	logo := "https://raw.githubusercontent.com/csivitu/Blob-CTF/master/assets/images/blob-ascii.png"
+	logo := "https://raw.githubusercontent.com/csivitu/bl0b/master/assets/images/blob-ascii.png"
 
 	ds.ChannelMessageSendComplex(dm.ChannelID, &discordgo.MessageSend{
 		Embed: &discordgo.MessageEmbed{
