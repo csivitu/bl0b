@@ -31,6 +31,7 @@ func (m *Mux) Events(ds *discordgo.Session, dm *discordgo.Message, ctx *Context)
 		message += "Weight: **" + weight + "**\n"
 		message += "Official URL: " + event.URL + "\n"
 		message += "CTFtime URL: " + event.CtftimeURL + "\n"
+		message += "Format: " + event.Format + "\n"
 		message += "Starts at: " + event.Start + "\n"
 		message += "Ends at: " + event.Finish + "\n"
 		message += "\n"
