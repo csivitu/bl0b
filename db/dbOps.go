@@ -1,6 +1,7 @@
 package db
 
 import (
+	"github.com/jmoiron/sqlx"
 	"fmt"
 	"strings"
 
@@ -45,7 +46,27 @@ func (DB *Database) GetEvents() (ctftime.Events, error) {
 
 	defer rows.Close()
 
-	var events ctftime.Events
+	return DB.getEventsFromRows(rows)
+}
+
+// GetEventsByStatus returns events depending upon the Status attribute
+func (DB *Database) GetEventsByStatus(status string) (ctftime.Events, error) {
+	rows, err := DB.db.Queryx("SELECT * FROM events WHERE Status=$1", status)
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	return DB.getEventsFromRows(rows)
+}
+
+
+func (DB *Database) getEventsFromRows(rows *sqlx.Rows) (ctftime.Events, error) {
+	var (
+		events ctftime.Events
+		err error
+	)
 
 	for rows.Next() {
 		event := ctftime.Event{}

@@ -5,17 +5,16 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/csivitu/bl0b/db"
+
 	"github.com/bwmarrin/discordgo"
-	"github.com/csivitu/bl0b/ctftime"
 )
 
 // UpcomingEvents returns upcoming events in the next 5 days
 func (m *Mux) UpcomingEvents(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) {
-	ctf := ctftime.New()
+	DB := db.New()
 
-	now := time.Now().Unix()
-
-	events, err := ctf.GetEvents(3, now, now+60*60*24*7)
+	events, err := DB.GetEvents()
 
 	if err != nil {
 		log.Println(err)
@@ -30,9 +29,13 @@ func (m *Mux) UpcomingEvents(ds *discordgo.Session, dm *discordgo.Message, ctx *
 		message += "**" + event.Title + "**\n"
 
 		message += "Organizers:\n"
-		for j := 0; j < len(event.Organizers); j++ {
-			message += strconv.Itoa(j+1) + ". **" + event.Organizers[0].Name + "**\n"
-		}
+
+		// TODO: Temporary hack - return only the first Organizer's name
+		// for j := 0; j < len(event.Organizers); j++ {
+		// 	message += strconv.Itoa(j+1) + ". **" + event.Organizers[j].Name + "**\n"
+		// }
+		
+		message += "1. **" + event.Organizer + "**\n"
 		message += "Weight: **" + weight + "**\n"
 		message += "Official URL: " + event.URL + "\n"
 		message += "CTFtime URL: " + event.CtftimeURL + "\n"
