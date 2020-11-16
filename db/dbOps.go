@@ -7,8 +7,8 @@ import (
 	"github.com/csivitu/bl0b/ctftime"
 )
 
-// AddEvent adds an event in the database
-func (DB *Database) AddEvent(event *ctftime.Event) error {
+// AddEvents adds a slice of Events in the database
+func (DB *Database) AddEvents(events *ctftime.Events) error {
 	params := `
 		ID, CtfID, FormatID, Logo,
 		PublicVotable, LiveFeed,
@@ -27,13 +27,17 @@ func (DB *Database) AddEvent(event *ctftime.Event) error {
 
 	queryString := fmt.Sprintf("INSERT INTO events (%s) VALUES (%s)", params, values)
 
-	_, err := DB.db.NamedExec(queryString, event)
+	tx := DB.db.MustBegin()
+	for _, event := range *events {
+		tx.NamedExec(queryString, event)
+	}
 
+	err := tx.Commit()
 	return err
 }
 
 // GetEvents returns Events from the database
-func (DB *Database) GetEvents() (*ctftime.Events, error) {
+func (DB *Database) GetEvents() (ctftime.Events, error) {
 	rows, err := DB.db.Queryx("SELECT * FROM events")
 	if err != nil {
 		return nil, err
@@ -54,5 +58,5 @@ func (DB *Database) GetEvents() (*ctftime.Events, error) {
 		events = append(events, event)
 	}
 
-	return &events, err
+	return events, err
 }
