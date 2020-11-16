@@ -30,5 +30,10 @@ func (ctf *CTFtime) GetEvents(limit int, startTime int64, endTime int64) (Events
 		return nil, err
 	}
 
+	// TODO: Temporary hack, later on add Organizers in separate table
+	for i := range events {
+		events[i].Organizer = events[i].Organizers[0].Name
+	}
+
 	return events, nil
 }

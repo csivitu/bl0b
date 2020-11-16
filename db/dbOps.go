@@ -17,7 +17,7 @@ func (DB *Database) AddEvents(events *ctftime.Events) error {
 		Format, Restrictions,
 		IsVotableNow, URL, Title,
 		Weight, Description,
-		Finish, OnSite
+		Finish, OnSite, Organizer
 	`
 
 	params = strings.ReplaceAll(params, "\t", "")

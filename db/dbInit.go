@@ -95,7 +95,9 @@ func Init() error {
 			Weight        DOUBLE NOT NULL,
 			Description   VARCHAR(2000) NOT NULL,
 			Finish        DATETIME,
-			OnSite        BOOL
+			OnSite        BOOL,
+			Status        ENUM('ongoing', 'upcoming') DEFAULT 'upcoming',
+			Organizer     VARCHAR(100)
 		)
 	`)
 	if err != nil {

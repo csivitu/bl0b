@@ -27,6 +27,9 @@ type Event struct {
 	FormatID      int         `json:"format_id" db:"FormatID"`
 	ID            int         `json:"id" db:"ID"`
 	CtfID         int         `json:"ctf_id" db:"CtfID"`
+	Status        string      `db:"Status"`
+	Organizer     string      `db:"Organizer"`
+	// TODO: Later on replace Organizer with list of Organizers in new table
 }
 
 // Organizer defines the structure of an organizer as obtained
