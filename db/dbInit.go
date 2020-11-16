@@ -1,19 +1,26 @@
 package db
 
 import (
+	"database/sql"
 	"fmt"
-	"strconv"
 	"log"
 	"os"
+	"strconv"
 )
 
 var (
 	dbUser string
 	dbPass string
-	dbIP string
+	dbIP   string
 	dbPort int
 	dbName string
 )
+
+// Database is a wrapper around the SQL database
+// to allow addition of methods
+type Database struct {
+	db *sql.DB
+}
 
 func init() {
 	dbUser = os.Getenv("DB_USER")
@@ -47,7 +54,7 @@ func init() {
 }
 
 // Init is used to initialize the SQL Database
-func Init() {
+func Init() *Database {
 	db := dbConn(dbUser, dbPass, dbIP, dbPort, "")
 
 	_, err := db.Exec(fmt.Sprintf("CREATE DATABASE IF NOT EXISTS %s", dbName))
@@ -67,13 +74,13 @@ func Init() {
 	// TODO: Add Organizers and Duration
 	_, err = db.Exec(`
 		CREATE TABLE events (
-			ID            INT NOT NULL,
+			ID            INT NOT NULL PRIMARY KEY,
 			CtfID         INT NOT NULL,
 			FormatID      INT NOT NULL,
-			Logo          VARCHAR(50),
+			Logo          VARCHAR(100),
 			PublicVotable BOOL,
-			LiveFeed      VARCHAR(50),
-			Location      VARCHAR(50),
+			LiveFeed      VARCHAR(100),
+			Location      VARCHAR(100),
 			CtftimeURL    VARCHAR(200) NOT NULL,
 			Participants  INT NOT NULL,
 			Start         DATETIME,
@@ -83,7 +90,7 @@ func Init() {
 			URL           VARCHAR(200) NOT NULL,
 			Title         VARCHAR(100) NOT NULL,
 			Weight        DOUBLE NOT NULL,
-			Description   VARCHAR(300) NOT NULL,
+			Description   VARCHAR(2000) NOT NULL,
 			Finish        DATETIME,
 			OnSite        BOOL
 		)
@@ -92,7 +99,9 @@ func Init() {
 		panic(err)
 	}
 
-	defer db.Close()
-
 	log.Println("Database initialized, tables created.")
+
+	return &Database{
+		db: db,
+	}
 }
