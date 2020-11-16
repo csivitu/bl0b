@@ -64,6 +64,7 @@ func Init() {
 		panic(err)
 	}
 
+	// TODO: Add Organizers and Duration
 	_, err = db.Exec(`
 		CREATE TABLE events (
 			ID            INT NOT NULL,
