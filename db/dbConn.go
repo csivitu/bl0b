@@ -23,10 +23,18 @@ func dbConn(dbUser string, dbPass string, dbIP string, dbPort int, dbName string
 	return db
 }
 
-func pingDB(db *sql.DB) {
-	err := db.Ping()
+// PingDB allows you to ping the database
+// and check if connection is possible
+func (DB *Database) Ping() {
+	err := DB.db.Ping()
 
 	if err != nil {
 		log.Fatal("Could not ping DB!")
 	}
+}
+
+// Close closes the connetion to the database,
+// can call this with defer in main
+func (DB *Database) Close() {
+	DB.db.Close()
 }
