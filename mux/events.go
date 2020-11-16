@@ -13,9 +13,9 @@ import (
 func (m *Mux) UpcomingEvents(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) {
 	ctf := ctftime.New()
 
-	now := time.Now().Unix() * 1000
+	now := time.Now().Unix()
 
-	events, err := ctf.GetEvents(3, now, now+1000*60*60*24*7)
+	events, err := ctf.GetEvents(3, now, now+60*60*24*7)
 
 	if err != nil {
 		log.Println(err)
@@ -26,12 +26,12 @@ func (m *Mux) UpcomingEvents(ds *discordgo.Session, dm *discordgo.Message, ctx *
 	for i := 0; i < len(events); i++ {
 		event := events[i]
 		weight := strconv.FormatFloat(event.Weight, 'f', 2, 64)
-		
+
 		message += "**" + event.Title + "**\n"
 
 		message += "Organizers:\n"
 		for j := 0; j < len(event.Organizers); j++ {
-			message += strconv.Itoa(j + 1) + ". **" + event.Organizers[0].Name + "**\n"
+			message += strconv.Itoa(j+1) + ". **" + event.Organizers[0].Name + "**\n"
 		}
 		message += "Weight: **" + weight + "**\n"
 		message += "Official URL: " + event.URL + "\n"
