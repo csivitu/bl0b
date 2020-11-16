@@ -37,8 +37,8 @@ func (m *Mux) UpcomingEvents(ds *discordgo.Session, dm *discordgo.Message, ctx *
 		message += "Official URL: " + event.URL + "\n"
 		message += "CTFtime URL: " + event.CtftimeURL + "\n"
 		message += "Format: " + event.Format + "\n"
-		message += "Starts at: " + event.Start + "\n"
-		message += "Ends at: " + event.Finish + "\n"
+		message += "Starts at: " + event.Start.Format(time.RFC1123) + "\n"
+		message += "Ends at: " + event.Finish.Format(time.RFC1123) + "\n"
 		message += "\n"
 	}
 
