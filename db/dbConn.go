@@ -14,8 +14,11 @@ func dbConn(dbUser string, dbPass string, dbIP string, dbPort int, dbName string
 	db, err := sql.Open(dbDriver, dbURI)
 
 	if err != nil {
+		log.Println(err)
 		log.Fatal("Error connecting to database.")
 	}
+
+	log.Println("Database connection successful!")
 
 	return db
 }

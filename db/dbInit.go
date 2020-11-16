@@ -46,7 +46,8 @@ func init() {
 	dbName = "bl0b"
 }
 
-func dbInit() {
+// Init is used to initialize the SQL Database
+func Init() {
 	db := dbConn(dbUser, dbPass, dbIP, dbPort, "")
 
 	_, err := db.Exec(fmt.Sprintf("CREATE DATABASE IF NOT EXISTS %s", dbName))
@@ -65,24 +66,24 @@ func dbInit() {
 
 	_, err = db.Exec(`
 		CREATE TABLE events (
-			ID            INT NOT NULL
-			CtfID         INT NOT NULL
-			FormatID      INT NOT NULL
-			Logo          VARCHAR(50)
-			PublicVotable BOOL
-			LiveFeed      VARCHAR(50)
-			Location      VARCHAR(50)
-			CtftimeURL    VARCHAR(200) NOT NULL
-			Participants  INT NOT NULL
-			Start         DATETIME
-			Format        VARCHAR(50) NOT NULL
-			Restrictions  VARCHAR(100) NOT NULL
-			IsVotableNow  BOOL
-			URL           VARCHAR(200) NOT NULL
-			Title         VARCHAR(100) NOT NULL
-			Weight        DOUBLE NOT NULL
-			Description   VARCHAR(300) NOT NULL
-			Finish        DATETIME
+			ID            INT NOT NULL,
+			CtfID         INT NOT NULL,
+			FormatID      INT NOT NULL,
+			Logo          VARCHAR(50),
+			PublicVotable BOOL,
+			LiveFeed      VARCHAR(50),
+			Location      VARCHAR(50),
+			CtftimeURL    VARCHAR(200) NOT NULL,
+			Participants  INT NOT NULL,
+			Start         DATETIME,
+			Format        VARCHAR(50) NOT NULL,
+			Restrictions  VARCHAR(100) NOT NULL,
+			IsVotableNow  BOOL,
+			URL           VARCHAR(200) NOT NULL,
+			Title         VARCHAR(100) NOT NULL,
+			Weight        DOUBLE NOT NULL,
+			Description   VARCHAR(300) NOT NULL,
+			Finish        DATETIME,
 			OnSite        BOOL
 		)
 	`)
@@ -90,5 +91,7 @@ func dbInit() {
 		panic(err)
 	}
 
-	db.Close()
+	defer db.Close()
+
+	log.Println("Database initialized, tables created.")
 }
