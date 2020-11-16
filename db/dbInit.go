@@ -65,15 +65,15 @@ func Init() *Database {
 
 	db.Close()
 
-	db = dbConn(dbUser, dbPass, dbIP, dbPort, dbName)
+	DB := New()
 
-	_, err = db.Exec("DROP TABLE IF EXISTS events")
+	_, err = DB.db.Exec("DROP TABLE IF EXISTS events")
 	if err != nil {
 		panic(err)
 	}
 
 	// TODO: Add Organizers and Duration
-	_, err = db.Exec(`
+	_, err = DB.db.Exec(`
 		CREATE TABLE events (
 			ID            INT NOT NULL PRIMARY KEY,
 			CtfID         INT NOT NULL,
@@ -102,9 +102,7 @@ func Init() *Database {
 
 	log.Println("Database initialized, tables created.")
 
-	return &Database{
-		db: db,
-	}
+	return DB
 }
 
 // New returns an instance of Database
