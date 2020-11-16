@@ -55,21 +55,23 @@ func init() {
 }
 
 // Init is used to initialize the SQL Database
-func Init() *Database {
+func Init() error {
 	db := dbConn(dbUser, dbPass, dbIP, dbPort, "")
 
 	_, err := db.Exec(fmt.Sprintf("CREATE DATABASE IF NOT EXISTS %s", dbName))
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	db.Close()
 
 	DB := New()
 
+	defer DB.Close()
+
 	_, err = DB.db.Exec("DROP TABLE IF EXISTS events")
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	// TODO: Add Organizers and Duration
@@ -97,12 +99,11 @@ func Init() *Database {
 		)
 	`)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	log.Println("Database initialized, tables created.")
-
-	return DB
+	return nil
 }
 
 // New returns an instance of Database
