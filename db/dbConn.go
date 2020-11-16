@@ -10,7 +10,7 @@ import (
 func dbConn(dbUser string, dbPass string, dbIP string, dbPort int, dbName string) *sqlx.DB {
 	dbDriver := "mysql"
 
-	dbURI := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&autocommit=true", dbUser, dbPass, dbIP, dbPort, dbName)
+	dbURI := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&autocommit=true&parseTime=true", dbUser, dbPass, dbIP, dbPort, dbName)
 
 	db, err := sqlx.Open(dbDriver, dbURI)
 

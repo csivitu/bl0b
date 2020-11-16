@@ -34,22 +34,25 @@ func (DB *Database) AddEvent(event *ctftime.Event) error {
 
 // GetEvents returns Events from the database
 func (DB *Database) GetEvents() (*ctftime.Events, error) {
-	rows, err := DB.db.Query("SELECT * FROM events")
+	rows, err := DB.db.Queryx("SELECT * FROM events")
 	if err != nil {
 		return nil, err
 	}
 
 	defer rows.Close()
 
-	var events *ctftime.Events
+	var events ctftime.Events
 
 	for rows.Next() {
 		event := ctftime.Event{}
 
-		err = rows.Scan()
+		err = rows.StructScan(&event)
+		if err != nil {
+			return nil, err
+		}
 
-		*events = append(*events, event)
+		events = append(events, event)
 	}
 
-	return events, err
+	return &events, err
 }
