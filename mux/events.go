@@ -14,6 +14,7 @@ import (
 // UpcomingEvents returns 3 upcoming events from the database
 func (m *Mux) UpcomingEvents(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) {
 	DB := db.New()
+	defer DB.Close()
 
 	numberOfEvents := 3
 	events, err := DB.GetEventsByStatus("upcoming")
@@ -32,6 +33,7 @@ func (m *Mux) UpcomingEvents(ds *discordgo.Session, dm *discordgo.Message, ctx *
 // OngoingEvents returns ongoing events from the database
 func (m *Mux) OngoingEvents(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) {
 	DB := db.New()
+	defer DB.Close()
 
 	events, err := DB.GetEventsByStatus("ongoing")
 	if err != nil {
