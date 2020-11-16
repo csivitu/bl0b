@@ -19,8 +19,6 @@ func dbConn(dbUser string, dbPass string, dbIP string, dbPort int, dbName string
 		log.Fatal("Error connecting to database.")
 	}
 
-	log.Println("Database connection successful!")
-
 	return db
 }
 

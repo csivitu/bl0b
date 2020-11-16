@@ -66,6 +66,7 @@ func Init() error {
 	db.Close()
 
 	DB := New()
+	log.Println("Database connection successful!")
 
 	defer DB.Close()
 
