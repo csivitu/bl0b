@@ -106,3 +106,13 @@ func Init() *Database {
 		db: db,
 	}
 }
+
+// New returns an instance of Database
+// Use this when you don't want to clear the DB
+func New() *Database {
+	db := dbConn(dbUser, dbPass, dbIP, dbPort, dbName)
+
+	return &Database{
+		db: db,
+	}
+}
