@@ -16,5 +16,6 @@ func init() {
 
 	// Register the build-in help command.
 	Router.Route("help", "Display this message.", Router.Help)
-	Router.Route("upcoming", "Shows next 3 upcoming CTFs this week", Router.UpcomingEvents)
+	Router.Route("upcoming", "Shows 3 upcoming CTFs this week", Router.UpcomingEvents)
+	Router.Route("ongoing", "Shows all ongoing CTFs", Router.OngoingEvents)
 }

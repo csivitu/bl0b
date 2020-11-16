@@ -5,25 +5,50 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/csivitu/bl0b/ctftime"
+
 	"github.com/csivitu/bl0b/db"
 
 	"github.com/bwmarrin/discordgo"
 )
 
-// UpcomingEvents returns upcoming events in the next 5 days
+// UpcomingEvents returns 3 upcoming events from the database
 func (m *Mux) UpcomingEvents(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) {
 	DB := db.New()
 
+	numberOfEvents := 3
 	events, err := DB.GetEventsByStatus("upcoming")
 
+	events = events[:numberOfEvents]
 	if err != nil {
 		log.Println(err)
 	}
 
 	message := ":triangular_flag_on_post: **_CTFs This Week_** :triangular_flag_on_post:\n\n"
+	message = attachEventData(message, &events)
 
-	for i := 0; i < len(events); i++ {
-		event := events[i]
+	ds.ChannelMessageSend(dm.ChannelID, message)
+}
+
+// OngoingEvents returns ongoing events from the database
+func (m *Mux) OngoingEvents(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) {
+	DB := db.New()
+
+	events, err := DB.GetEventsByStatus("ongoing")
+	if err != nil {
+		log.Println(err)
+	}
+
+	message := ":triangular_flag_on_post: **_Ongoing CTFs_** :triangular_flag_on_post:\n\n"
+	message = attachEventData(message, &events)
+
+	ds.ChannelMessageSend(dm.ChannelID, message)
+}
+
+
+func attachEventData(message string, events *ctftime.Events) string {
+	for i := 0; i < len(*events); i++ {
+		event := (*events)[i]
 		weight := strconv.FormatFloat(event.Weight, 'f', 2, 64)
 
 		message += "**" + event.Title + "**\n"
@@ -34,7 +59,7 @@ func (m *Mux) UpcomingEvents(ds *discordgo.Session, dm *discordgo.Message, ctx *
 		// for j := 0; j < len(event.Organizers); j++ {
 		// 	message += strconv.Itoa(j+1) + ". **" + event.Organizers[j].Name + "**\n"
 		// }
-		
+
 		message += "1. **" + event.Organizer + "**\n"
 		message += "Weight: **" + weight + "**\n"
 		message += "Official URL: " + event.URL + "\n"
@@ -45,9 +70,9 @@ func (m *Mux) UpcomingEvents(ds *discordgo.Session, dm *discordgo.Message, ctx *
 		message += "\n"
 	}
 
-	if len(events) == 0 {
+	if len(*events) == 0 {
 		message = "0 CTFs found :slight_frown:"
 	}
 
-	ds.ChannelMessageSend(dm.ChannelID, message)
+	return message
 }
