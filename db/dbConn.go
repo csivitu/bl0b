@@ -23,7 +23,7 @@ func dbConn(dbUser string, dbPass string, dbIP string, dbPort int, dbName string
 	return db
 }
 
-// PingDB allows you to ping the database
+// Ping allows you to ping the database
 // and check if connection is possible
 func (DB *Database) Ping() {
 	err := DB.db.Ping()
