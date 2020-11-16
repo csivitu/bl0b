@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/csivitu/bl0b/ctftime"
-
 	"github.com/csivitu/bl0b/db"
 
 	"github.com/bwmarrin/discordgo"
@@ -44,7 +43,6 @@ func (m *Mux) OngoingEvents(ds *discordgo.Session, dm *discordgo.Message, ctx *C
 
 	ds.ChannelMessageSend(dm.ChannelID, message)
 }
-
 
 func attachEventData(message string, events *ctftime.Events) string {
 	for i := 0; i < len(*events); i++ {
