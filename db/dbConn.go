@@ -1,17 +1,18 @@
 package db
 
 import (
-	"log"
-	"database/sql"
 	"fmt"
+	"log"
+
+	"github.com/jmoiron/sqlx"
 )
 
-func dbConn(dbUser string, dbPass string, dbIP string, dbPort int, dbName string) *sql.DB {
+func dbConn(dbUser string, dbPass string, dbIP string, dbPort int, dbName string) *sqlx.DB {
 	dbDriver := "mysql"
 
 	dbURI := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&autocommit=true", dbUser, dbPass, dbIP, dbPort, dbName)
 
-	db, err := sql.Open(dbDriver, dbURI)
+	db, err := sqlx.Open(dbDriver, dbURI)
 
 	if err != nil {
 		log.Println(err)

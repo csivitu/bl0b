@@ -1,11 +1,12 @@
 package db
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 	"os"
 	"strconv"
+
+	"github.com/jmoiron/sqlx"
 )
 
 var (
@@ -19,7 +20,7 @@ var (
 // Database is a wrapper around the SQL database
 // to allow addition of methods
 type Database struct {
-	db *sql.DB
+	db *sqlx.DB
 }
 
 func init() {
