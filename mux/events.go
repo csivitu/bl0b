@@ -14,7 +14,7 @@ import (
 func (m *Mux) UpcomingEvents(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) {
 	DB := db.New()
 
-	events, err := DB.GetEvents()
+	events, err := DB.GetEventsByStatus("upcoming")
 
 	if err != nil {
 		log.Println(err)
@@ -43,6 +43,10 @@ func (m *Mux) UpcomingEvents(ds *discordgo.Session, dm *discordgo.Message, ctx *
 		message += "Starts at: " + event.Start.Format(time.RFC1123) + "\n"
 		message += "Ends at: " + event.Finish.Format(time.RFC1123) + "\n"
 		message += "\n"
+	}
+
+	if len(events) == 0 {
+		message = "0 CTFs found :slight_frown:"
 	}
 
 	ds.ChannelMessageSend(dm.ChannelID, message)
