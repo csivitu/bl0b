@@ -9,8 +9,8 @@ import (
 )
 
 // Populate run every interval and adds items to the database
-func Populate() {
-	ticker := time.NewTicker(15 * time.Second)
+func Populate(t time.Duration) {
+	ticker := time.NewTicker(t)
 
 	done := make(chan bool)
 

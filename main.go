@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/csivitu/bl0b/routines"
 
@@ -48,7 +49,7 @@ ___.   .__  _______ ___.
 		os.Exit(1)
 	}
 
-	routines.Populate()
+	routines.Populate(30 * time.Second)
 
 	log.Println("bl0b is running, press Ctrl-C to exit.")
 	sc := make(chan os.Signal, 1)
