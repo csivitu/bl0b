@@ -8,6 +8,8 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/csivitu/bl0b/routines"
+
 	_ "github.com/go-sql-driver/mysql"
 
 	"github.com/bwmarrin/discordgo"
@@ -45,6 +47,8 @@ ___.   .__  _______ ___.
 		log.Printf("Error opening connection to Discord, %s\n", err)
 		os.Exit(1)
 	}
+
+	routines.Populate()
 
 	log.Println("bl0b is running, press Ctrl-C to exit.")
 	sc := make(chan os.Signal, 1)
