@@ -4,6 +4,8 @@ import (
 	"log"
 	"time"
 
+	"github.com/csivitu/bl0b/utils"
+
 	"github.com/csivitu/bl0b/ctftime"
 	"github.com/csivitu/bl0b/db"
 )
@@ -29,21 +31,9 @@ func populate(t time.Time) {
 
 // Populate run every interval and adds items to the database
 func Populate(t time.Duration) {
-	ticker := time.NewTicker(t)
-
-	done := make(chan bool)
-
-	go func() {
-		populate(time.Now())
-		for {
-			select {
-			case <-done:
-				return
-			case t := <-ticker.C:
-				populate(t)
-			}
-		}
-	}()
+	// Instantly populate once in a goroutine
+	go populate(time.Now())
+	utils.SetInterval(populate, t)
 
 	log.Println("The database will be populated periodically.")
 }

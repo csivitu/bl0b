@@ -4,6 +4,8 @@ import (
 	"log"
 	"time"
 
+	"github.com/csivitu/bl0b/utils"
+
 	"github.com/csivitu/bl0b/ctftime"
 
 	"github.com/csivitu/bl0b/db"
@@ -82,20 +84,12 @@ func analyze() {
 // Analyze rows in the database to change status
 // from `upcoming` to `ongoing`
 func Analyze(t time.Duration) {
-	ticker := time.NewTicker(t)
-
-	done := make(chan bool)
-
-	go func() {
-		for {
-			select {
-			case <-done:
-				return
-			case <-ticker.C:
-				analyze()
-			}
-		}
-	}()
+	utils.SetInterval(
+		func(_ time.Time) {
+			analyze()
+		},
+		t,
+	)
 
 	log.Println("Analyzing the DB to update the status of each event!")
 }
