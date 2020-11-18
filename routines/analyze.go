@@ -25,6 +25,17 @@ func computeStatus(start time.Time, end time.Time) string {
 	return "over"
 }
 
+func handleUpcoming(event *ctftime.Event, DB *db.Database) {
+	if event.Status == "upcoming" {
+		return
+	}
+
+	err := DB.ModifyEventStatus(event.ID, "upcoming")
+	if err != nil {
+		log.Println("Error while modifying event " + event.Title + " in handleUpcoming")
+	}
+}
+
 func handleOngoing(event *ctftime.Event, DB *db.Database) {
 	// If the status is already ongoing, return
 	if event.Status == "ongoing" {
@@ -33,7 +44,7 @@ func handleOngoing(event *ctftime.Event, DB *db.Database) {
 
 	err := DB.ModifyEventStatus(event.ID, "ongoing")
 	if err != nil {
-		log.Println("Error while modifying event " + event.Title)
+		log.Println("Error while modifying event " + event.Title + " in handleOngoing")
 		log.Println(err)
 	}
 }
@@ -60,14 +71,12 @@ func analyze() {
 		status := computeStatus(event.Start, event.Finish)
 
 		switch status {
+		case "upcoming":
+			handleUpcoming(&event, DB)
 		case "ongoing":
-			{
-				handleOngoing(&event, DB)
-			}
+			handleOngoing(&event, DB)
 		case "over":
-			{
-				handleOver(&event, DB)
-			}
+			handleOver(&event, DB)
 		}
 	}
 }
