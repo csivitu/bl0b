@@ -9,16 +9,14 @@ import (
 	"github.com/csivitu/bl0b/db"
 )
 
-func computeStatus(start time.Time, end time.Time) string {
-	t := time.Now().Unix()
-	startUnix := start.Unix()
-	endUnix := end.Unix()
+func computeStatus(start time.Time, finish time.Time) string {
+	t := time.Now()
 
-	if startUnix <= t && t < endUnix {
+	if t.After(start) && t.Before(finish) {
 		return "ongoing"
 	}
 
-	if t < startUnix && t < endUnix {
+	if t.Before(start) && t.Before(finish) {
 		return "upcoming"
 	}
 
