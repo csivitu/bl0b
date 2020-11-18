@@ -49,8 +49,8 @@ ___.   .__  _______ ___.
 		os.Exit(1)
 	}
 
-	routines.Populate(30 * time.Second)
-	routines.Analyze(15 * time.Second)
+	routines.Populate(time.Hour)
+	routines.Analyze(time.Minute)
 
 	log.Println("bl0b is running, press Ctrl-C to exit.")
 	sc := make(chan os.Signal, 1)
