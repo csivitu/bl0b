@@ -15,8 +15,7 @@ func populate(t time.Time) {
 
 	ctf := ctftime.New()
 
-	now := t.Unix()
-	events, err := ctf.GetEvents(10, now, now+60*60*24*7)
+	events, err := ctf.GetEvents(10, t, t.Add(time.Hour*24*7))
 
 	if err != nil {
 		log.Println(err)
