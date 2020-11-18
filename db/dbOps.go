@@ -25,7 +25,17 @@ func (DB *Database) AddEvents(events *ctftime.Events) error {
 
 	values := ":" + strings.ReplaceAll(params, ", ", ", :")[1:]
 
-	queryString := fmt.Sprintf("INSERT INTO events (%s) VALUES (%s)", params, values)
+	updates := strings.Split(params, ", ")
+
+	update := ""
+
+	for _, u := range updates {
+		update += fmt.Sprintf("%s=VALUES(%s), ", u, u)
+	}
+
+	update = update[:len(update)-2]
+
+	queryString := fmt.Sprintf("INSERT INTO events (%s) VALUES (%s) ON DUPLICATE KEY UPDATE %s", params, values, update)
 
 	tx := DB.db.MustBegin()
 	for _, event := range *events {
@@ -65,7 +75,6 @@ func (DB *Database) ModifyEventStatus(eventID int, status string) error {
 
 	return err
 }
-
 
 // DeleteEventByID deletes the event with ID eventID
 func (DB *Database) DeleteEventByID(eventID int) error {
