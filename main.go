@@ -9,6 +9,8 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/csivitu/bl0b/db"
+	"github.com/csivitu/bl0b/notifs"
 	"github.com/csivitu/bl0b/routines"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -49,8 +51,16 @@ ___.   .__  _______ ___.
 		os.Exit(1)
 	}
 
+	err = db.Init()
+	if err != nil {
+		log.Println(err)
+		log.Fatalln("Could not initialize DB!")
+	}
+
+	n := notifs.NewNotifHandler(Session)
+
 	routines.Populate(time.Hour)
-	routines.Analyze(time.Minute)
+	routines.Analyze(time.Minute, n)
 
 	log.Println("bl0b is running, press Ctrl-C to exit.")
 	sc := make(chan os.Signal, 1)
