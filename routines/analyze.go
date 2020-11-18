@@ -1,11 +1,13 @@
 package routines
 
 import (
+	"fmt"
 	"log"
 	"time"
 
 	"github.com/csivitu/bl0b/ctftime"
 	"github.com/csivitu/bl0b/db"
+	"github.com/csivitu/bl0b/notifs"
 	"github.com/csivitu/bl0b/utils"
 )
 
@@ -34,7 +36,7 @@ func handleUpcoming(event *ctftime.Event, DB *db.Database) {
 	}
 }
 
-func handleOngoing(event *ctftime.Event, DB *db.Database) {
+func handleOngoing(event *ctftime.Event, DB *db.Database, n *notifs.NotifHandler) {
 	// If the status is already ongoing, return
 	if event.Status == "ongoing" {
 		return
@@ -45,17 +47,21 @@ func handleOngoing(event *ctftime.Event, DB *db.Database) {
 		log.Println("Error while modifying event " + event.Title + " in handleOngoing")
 		log.Println(err)
 	}
+
+	n.NotifyAll(fmt.Sprintf("@here %s is now live! Head to %s :triangular_flag_on_post:", event.Title, event.URL))
 }
 
-func handleOver(event *ctftime.Event, DB *db.Database) {
+func handleOver(event *ctftime.Event, DB *db.Database, n *notifs.NotifHandler) {
 	err := DB.DeleteEventByID(event.ID)
 	if err != nil {
 		log.Println("Error while deleting event " + event.Title)
 		log.Println(err)
 	}
+
+	n.NotifyAll(fmt.Sprintf("%s is over, scoreboard will be available here: %s :partying_face:", event.Title, event.CtftimeURL))
 }
 
-func analyze() {
+func analyze(n *notifs.NotifHandler) {
 	DB := db.New()
 	defer DB.Close()
 
@@ -72,19 +78,19 @@ func analyze() {
 		case "upcoming":
 			handleUpcoming(&event, DB)
 		case "ongoing":
-			handleOngoing(&event, DB)
+			handleOngoing(&event, DB, n)
 		case "over":
-			handleOver(&event, DB)
+			handleOver(&event, DB, n)
 		}
 	}
 }
 
 // Analyze rows in the database to change status
 // from `upcoming` to `ongoing`
-func Analyze(t time.Duration) {
+func Analyze(t time.Duration, n *notifs.NotifHandler) {
 	utils.SetInterval(
 		func(_ time.Time) {
-			analyze()
+			analyze(n)
 		},
 		t,
 	)
