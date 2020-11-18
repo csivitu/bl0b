@@ -105,6 +105,15 @@ func Init() error {
 		return err
 	}
 
+	_, err = DB.db.Exec(`
+		CREATE TABLE IF NOT EXISTS notify (
+			ChannelID    VARCHAR(30) PRIMARY KEY
+		)
+	`)
+	if err != nil {
+		return err
+	}
+
 	log.Println("Database initialized, tables created.")
 	return nil
 }
