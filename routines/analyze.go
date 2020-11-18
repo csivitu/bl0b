@@ -4,11 +4,9 @@ import (
 	"log"
 	"time"
 
-	"github.com/csivitu/bl0b/utils"
-
 	"github.com/csivitu/bl0b/ctftime"
-
 	"github.com/csivitu/bl0b/db"
+	"github.com/csivitu/bl0b/utils"
 )
 
 func computeStatus(start time.Time, finish time.Time) string {

@@ -4,10 +4,9 @@ import (
 	"log"
 	"time"
 
-	"github.com/csivitu/bl0b/utils"
-
 	"github.com/csivitu/bl0b/ctftime"
 	"github.com/csivitu/bl0b/db"
+	"github.com/csivitu/bl0b/utils"
 )
 
 func populate(t time.Time) {
