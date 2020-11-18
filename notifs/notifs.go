@@ -27,6 +27,8 @@ func (n *NotifHandler) Notify(ChannelID string, message string) {
 // NotifyAll calls Notify for all channels in the database
 func (n *NotifHandler) NotifyAll(message string) {
 	DB := db.New()
+	defer DB.Close()
+
 	channels, err := DB.GetRegisteredChannels()
 	if err != nil {
 		log.Println(err)
