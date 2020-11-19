@@ -1,9 +1,12 @@
-version: '3.8'
+version: "3.8"
 services:
   bl0b:
     build: .
-    env_file: .env.prod
-  mysql:
+    env_file:
+      - .env.prod
+    depends_on:
+      - db
+  db:
     image: mysql
     ports:
       - 3306:3306
