@@ -9,6 +9,9 @@ COPY go.sum .
 RUN go mod download
 RUN go mod verify
 
+RUN wget -q https://github.com/roerohan/wait-for-it/releases/download/v0.2.2/wait-for-it
+RUN chmod +x ./wait-for-it
+
 FROM prepare AS build
 
 COPY . .
@@ -19,5 +22,6 @@ FROM scratch
 
 COPY --from=build /app/bin/bl0b /app/
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=build /app/wait-for-it .
 
 ENTRYPOINT [ "/app/bl0b" ]

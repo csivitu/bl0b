@@ -6,6 +6,7 @@ services:
       - .env.prod
     depends_on:
       - db
+    entrypoint: ['./wait-for-it', 'db:3306', '/app/bl0b']
   db:
     image: mysql
     ports:
