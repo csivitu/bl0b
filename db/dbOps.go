@@ -55,7 +55,7 @@ func (DB *Database) GetEvents() (ctftime.Events, error) {
 }
 
 // GetEventsByStatus returns events depending upon the Status attribute
-func (DB *Database) GetEventsByStatus(status string) (ctftime.Events, error) {
+func (DB *Database) GetEventsByStatus(status ctftime.Status) (ctftime.Events, error) {
 	var events ctftime.Events
 	err := DB.db.Select(&events, "SELECT * FROM events WHERE Status=?", status)
 
@@ -64,7 +64,7 @@ func (DB *Database) GetEventsByStatus(status string) (ctftime.Events, error) {
 
 // ModifyEventStatus modifies the status of the event
 // identified by the eventID
-func (DB *Database) ModifyEventStatus(eventID int, status string) error {
+func (DB *Database) ModifyEventStatus(eventID int, status ctftime.Status) error {
 	queryString := "UPDATE events SET Status=:status WHERE ID=:id"
 
 	_, err := DB.db.NamedExec(queryString,
