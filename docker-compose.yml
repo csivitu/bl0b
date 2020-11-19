@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  bl0b:
+    build: .
+    env_file:
+      - .env.prod
+    depends_on:
+      - db
+    entrypoint: ['./wait-for-it', '-w', 'db:3306', '--', '/app/bl0b']
+  db:
+    image: mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    restart: on-failure
