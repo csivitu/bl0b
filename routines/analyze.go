@@ -11,26 +11,26 @@ import (
 	"github.com/csivitu/bl0b/utils"
 )
 
-func computeStatus(start time.Time, finish time.Time) string {
+func computeStatus(start time.Time, finish time.Time) ctftime.Status {
 	t := time.Now()
 
 	if t.After(start) && t.Before(finish) {
-		return "ongoing"
+		return ctftime.Ongoing
 	}
 
 	if t.Before(start) && t.Before(finish) {
-		return "upcoming"
+		return ctftime.Upcoming
 	}
 
-	return "over"
+	return ctftime.Over
 }
 
 func handleUpcoming(event *ctftime.Event, DB *db.Database) {
-	if event.Status == "upcoming" {
+	if event.Status == ctftime.Upcoming {
 		return
 	}
 
-	err := DB.ModifyEventStatus(event.ID, "upcoming")
+	err := DB.ModifyEventStatus(event.ID, ctftime.Upcoming)
 	if err != nil {
 		log.Println("Error while modifying event " + event.Title + " in handleUpcoming")
 	}
@@ -38,11 +38,11 @@ func handleUpcoming(event *ctftime.Event, DB *db.Database) {
 
 func handleOngoing(event *ctftime.Event, DB *db.Database, n *notifs.NotifHandler) {
 	// If the status is already ongoing, return
-	if event.Status == "ongoing" {
+	if event.Status == ctftime.Ongoing {
 		return
 	}
 
-	err := DB.ModifyEventStatus(event.ID, "ongoing")
+	err := DB.ModifyEventStatus(event.ID, ctftime.Ongoing)
 	if err != nil {
 		log.Println("Error while modifying event " + event.Title + " in handleOngoing")
 		log.Println(err)
@@ -75,11 +75,11 @@ func analyze(n *notifs.NotifHandler) {
 		status := computeStatus(event.Start, event.Finish)
 
 		switch status {
-		case "upcoming":
+		case ctftime.Upcoming:
 			handleUpcoming(&event, DB)
-		case "ongoing":
+		case ctftime.Ongoing:
 			handleOngoing(&event, DB, n)
-		case "over":
+		case ctftime.Over:
 			handleOver(&event, DB, n)
 		}
 	}

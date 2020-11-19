@@ -17,7 +17,7 @@ func (m *Mux) UpcomingEvents(ds *discordgo.Session, dm *discordgo.Message, ctx *
 	defer DB.Close()
 
 	numberOfEvents := 3
-	events, err := DB.GetEventsByStatus("upcoming")
+	events, err := DB.GetEventsByStatus(ctftime.Upcoming)
 
 	events = events[:numberOfEvents]
 	if err != nil {
@@ -35,7 +35,7 @@ func (m *Mux) OngoingEvents(ds *discordgo.Session, dm *discordgo.Message, ctx *C
 	DB := db.New()
 	defer DB.Close()
 
-	events, err := DB.GetEventsByStatus("ongoing")
+	events, err := DB.GetEventsByStatus(ctftime.Ongoing)
 	if err != nil {
 		log.Println(err)
 	}
