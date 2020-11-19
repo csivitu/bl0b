@@ -27,7 +27,7 @@ type Event struct {
 	FormatID      int         `json:"format_id" db:"FormatID"`
 	ID            int         `json:"id" db:"ID"`
 	CtfID         int         `json:"ctf_id" db:"CtfID"`
-	Status        string      `db:"Status"`
+	Status        Status      `db:"Status"`
 	Organizer     string      `db:"Organizer"`
 	// TODO: Later on replace Organizer with list of Organizers in new table
 }
@@ -48,3 +48,15 @@ type Duration struct {
 
 // Events is a slice of type Event
 type Events []Event
+
+// Status specifies the status of events in the database
+type Status string
+
+const (
+	// Upcoming status
+	Upcoming Status = "upcoming"
+	// Ongoing status
+	Ongoing Status = "ongoing"
+	// Over staatus
+	Over Status = "over"
+)
