@@ -18,4 +18,5 @@ func init() {
 	Router.Route("help", "Display this message.", Router.Help)
 	Router.Route("upcoming", "Shows 3 upcoming CTFs this week", Router.UpcomingEvents)
 	Router.Route("ongoing", "Shows all ongoing CTFs", Router.OngoingEvents)
+	Router.Route("register", "Register for notifications on this channel", Router.NotifRegister)
 }
