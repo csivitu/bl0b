@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"time"
 )
 
 // HTTPResponseToStruct converts response from CTFtime into
@@ -30,4 +31,25 @@ func HTTPResponseToStruct(r *http.Response, v interface{}) error {
 	}
 
 	return nil
+}
+
+// SetInterval runs a function repeatedly in a goroutine
+// and returns a channel `done` to stop the routine
+func SetInterval(f func(time.Time), t time.Duration) chan bool {
+	ticker := time.NewTicker(t)
+
+	done := make(chan bool, 1)
+
+	go func() {
+		defer ticker.Stop()
+		for {
+			select {
+			case t := <-ticker.C:
+				f(t)
+			case <-done:
+				return
+			}
+		}
+	}()
+	return done
 }

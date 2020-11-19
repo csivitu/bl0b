@@ -9,7 +9,7 @@
   </a>
   <br />
   <a href="https://github.com/csivitu/bl0b">
-    <img src="https://raw.githubusercontent.com/csivitu/bl0b/master/assets/images/blob.png" alt="Logo" width="80">
+    <img src="https://raw.githubusercontent.com/csivitu/bl0b/master/assets/images/bl0b.png" alt="Logo" width="80">
   </a>
 
   <h3 align="center">bl0b</h3>

@@ -7,6 +7,13 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
+
+	"github.com/csivitu/bl0b/db"
+	"github.com/csivitu/bl0b/notifs"
+	"github.com/csivitu/bl0b/routines"
+
+	_ "github.com/go-sql-driver/mysql"
 
 	"github.com/bwmarrin/discordgo"
 )
@@ -44,7 +51,18 @@ ___.   .__  _______ ___.
 		os.Exit(1)
 	}
 
-	log.Println("Blob is running, press Ctrl-C to exit.")
+	err = db.Init()
+	if err != nil {
+		log.Println(err)
+		log.Fatalln("Could not initialize DB!")
+	}
+
+	n := notifs.NewNotifHandler(Session)
+
+	routines.Populate(time.Hour)
+	routines.Analyze(time.Minute, n)
+
+	log.Println("bl0b is running, press Ctrl-C to exit.")
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
 	<-sc
