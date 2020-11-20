@@ -10,8 +10,8 @@ import (
 // GetEvents returns events between startTime and endTime. The number
 // of events is defined by the value of limit.
 func (ctf *CTFtime) GetEvents(limit int, startTime time.Time, finishTime time.Time) (Events, error) {
-	start := startTime.Unix() * 1000
-	finish := finishTime.Unix() * 1000
+	start := startTime.Unix()
+	finish := finishTime.Unix()
 
 	endpoint := fmt.Sprintf(
 		"/events/?limit=%d&start=%d&finish=%d",
