@@ -49,7 +49,7 @@ func (DB *Database) AddEvents(events *ctftime.Events) error {
 // GetEvents returns Events from the database
 func (DB *Database) GetEvents() (ctftime.Events, error) {
 	var events ctftime.Events
-	err := DB.db.Select(&events, "SELECT * FROM events")
+	err := DB.db.Select(&events, "SELECT * FROM events ORDER BY Start")
 
 	return events, err
 }
@@ -57,7 +57,7 @@ func (DB *Database) GetEvents() (ctftime.Events, error) {
 // GetEventsByStatus returns events depending upon the Status attribute
 func (DB *Database) GetEventsByStatus(status ctftime.Status) (ctftime.Events, error) {
 	var events ctftime.Events
-	err := DB.db.Select(&events, "SELECT * FROM events WHERE Status=?", status)
+	err := DB.db.Select(&events, "SELECT * FROM events WHERE Status=? ORDER BY Start", status)
 
 	return events, err
 }
