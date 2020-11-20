@@ -11,26 +11,12 @@ import (
 	"github.com/csivitu/bl0b/utils"
 )
 
-func computeStatus(start time.Time, finish time.Time) ctftime.Status {
-	t := time.Now()
-
-	if t.After(start) && t.Before(finish) {
-		return ctftime.Ongoing
-	}
-
-	if t.Before(start) && t.Before(finish) {
-		return ctftime.Upcoming
-	}
-
-	return ctftime.Over
-}
-
 func handleUpcoming(event *ctftime.Event, DB *db.Database) {
-	if event.Status == ctftime.Upcoming {
+	if event.Status == utils.Upcoming {
 		return
 	}
 
-	err := DB.ModifyEventStatus(event.ID, ctftime.Upcoming)
+	err := DB.ModifyEventStatus(event.ID, utils.Upcoming)
 	if err != nil {
 		log.Println("Error while modifying event " + event.Title + " in handleUpcoming")
 	}
@@ -38,11 +24,11 @@ func handleUpcoming(event *ctftime.Event, DB *db.Database) {
 
 func handleOngoing(event *ctftime.Event, DB *db.Database, n *notifs.NotifHandler) {
 	// If the status is already ongoing, return
-	if event.Status == ctftime.Ongoing {
+	if event.Status == utils.Ongoing {
 		return
 	}
 
-	err := DB.ModifyEventStatus(event.ID, ctftime.Ongoing)
+	err := DB.ModifyEventStatus(event.ID, utils.Ongoing)
 	if err != nil {
 		log.Println("Error while modifying event " + event.Title + " in handleOngoing")
 		log.Println(err)
@@ -58,7 +44,9 @@ func handleOver(event *ctftime.Event, DB *db.Database, n *notifs.NotifHandler) {
 		log.Println(err)
 	}
 
-	n.NotifyAll(fmt.Sprintf("%s is over, scoreboard will be available here: %s :partying_face:", event.Title, event.CtftimeURL))
+	if event.Status != utils.Over {
+		n.NotifyAll(fmt.Sprintf("%s is over, scoreboard will be available here: %s :partying_face:", event.Title, event.CtftimeURL))
+	}
 }
 
 func analyze(n *notifs.NotifHandler) {
@@ -72,14 +60,14 @@ func analyze(n *notifs.NotifHandler) {
 	}
 
 	for _, event := range events {
-		status := computeStatus(event.Start, event.Finish)
+		status := utils.ComputeStatus(event.Start, event.Finish)
 
 		switch status {
-		case ctftime.Upcoming:
+		case utils.Upcoming:
 			handleUpcoming(&event, DB)
-		case ctftime.Ongoing:
+		case utils.Ongoing:
 			handleOngoing(&event, DB, n)
-		case ctftime.Over:
+		case utils.Over:
 			handleOver(&event, DB, n)
 		}
 	}
