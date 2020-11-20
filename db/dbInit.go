@@ -97,7 +97,7 @@ func Init() error {
 			Description   VARCHAR(2000) NOT NULL,
 			Finish        DATETIME,
 			OnSite        BOOL,
-			Status        ENUM('ongoing', 'upcoming') DEFAULT 'upcoming',
+			Status        ENUM('ongoing', 'upcoming', 'over'),
 			Organizer     VARCHAR(100)
 		)
 	`)
