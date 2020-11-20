@@ -7,6 +7,19 @@ import (
 	"time"
 )
 
+// Status specifies the status of events in the database
+type Status string
+
+const (
+	// Upcoming status
+	Upcoming Status = "upcoming"
+	// Ongoing status
+	Ongoing Status = "ongoing"
+	// Over staatus
+	Over Status = "over"
+)
+
+
 // HTTPResponseToStruct converts response from CTFtime into
 // to a struct specified by the param v
 func HTTPResponseToStruct(r *http.Response, v interface{}) error {
@@ -52,4 +65,19 @@ func SetInterval(f func(time.Time), t time.Duration) chan bool {
 		}
 	}()
 	return done
+}
+
+// ComputeStatus finds if a CTF is upcoming, ongoing or over
+func ComputeStatus(start time.Time, finish time.Time) Status {
+	t := time.Now()
+
+	if t.After(start) && t.Before(finish) {
+		return Ongoing
+	}
+
+	if t.Before(start) && t.Before(finish) {
+		return Upcoming
+	}
+
+	return Over
 }
