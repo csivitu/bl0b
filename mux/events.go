@@ -7,6 +7,7 @@ import (
 
 	"github.com/csivitu/bl0b/ctftime"
 	"github.com/csivitu/bl0b/db"
+	"github.com/csivitu/bl0b/utils"
 
 	"github.com/bwmarrin/discordgo"
 )
@@ -17,7 +18,7 @@ func (m *Mux) UpcomingEvents(ds *discordgo.Session, dm *discordgo.Message, ctx *
 	defer DB.Close()
 
 	numberOfEvents := 3
-	events, err := DB.GetEventsByStatus(ctftime.Upcoming)
+	events, err := DB.GetEventsByStatus(utils.Upcoming)
 
 	events = events[:numberOfEvents]
 	if err != nil {
@@ -35,7 +36,7 @@ func (m *Mux) OngoingEvents(ds *discordgo.Session, dm *discordgo.Message, ctx *C
 	DB := db.New()
 	defer DB.Close()
 
-	events, err := DB.GetEventsByStatus(ctftime.Ongoing)
+	events, err := DB.GetEventsByStatus(utils.Ongoing)
 	if err != nil {
 		log.Println(err)
 	}
