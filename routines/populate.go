@@ -19,7 +19,7 @@ func populate(t time.Time) {
 	duration := time.Hour*24*7
 
 	// 7 days before and 7 days after
-	events, err := ctf.GetEvents(10, t.Add(-duration), t.Add(duration))
+	events, err := ctf.GetEvents(15, t.Add(-duration), t.Add(duration))
 
 	if err != nil {
 		log.Println(err)
