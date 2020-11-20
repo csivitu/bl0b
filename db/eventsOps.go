@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/csivitu/bl0b/ctftime"
+	"github.com/csivitu/bl0b/utils"
 )
 
 // AddEvents adds a slice of Events in the database
@@ -17,7 +18,8 @@ func (DB *Database) AddEvents(events *ctftime.Events) error {
 		Format, Restrictions,
 		IsVotableNow, URL, Title,
 		Weight, Description,
-		Finish, OnSite, Organizer
+		Finish, OnSite, Organizer,
+		Status
 	`
 
 	params = strings.ReplaceAll(params, "\t", "")
@@ -39,7 +41,11 @@ func (DB *Database) AddEvents(events *ctftime.Events) error {
 
 	tx := DB.db.MustBegin()
 	for _, event := range *events {
-		tx.NamedExec(queryString, event)
+		event.Status = utils.ComputeStatus(event.Start, event.Finish)
+		_, err := tx.NamedExec(queryString, event)
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 
 	err := tx.Commit()
@@ -55,7 +61,7 @@ func (DB *Database) GetEvents() (ctftime.Events, error) {
 }
 
 // GetEventsByStatus returns events depending upon the Status attribute
-func (DB *Database) GetEventsByStatus(status ctftime.Status) (ctftime.Events, error) {
+func (DB *Database) GetEventsByStatus(status utils.Status) (ctftime.Events, error) {
 	var events ctftime.Events
 	err := DB.db.Select(&events, "SELECT * FROM events WHERE Status=? ORDER BY Start", status)
 
@@ -64,7 +70,7 @@ func (DB *Database) GetEventsByStatus(status ctftime.Status) (ctftime.Events, er
 
 // ModifyEventStatus modifies the status of the event
 // identified by the eventID
-func (DB *Database) ModifyEventStatus(eventID int, status ctftime.Status) error {
+func (DB *Database) ModifyEventStatus(eventID int, status utils.Status) error {
 	queryString := "UPDATE events SET Status=:status WHERE ID=:id"
 
 	_, err := DB.db.NamedExec(queryString,
