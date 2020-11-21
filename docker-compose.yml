@@ -14,3 +14,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
     restart: on-failure
+    volumes:
+      - bl0b-data:/var/lib/mysql
+
+volumes:
+  bl0b-data:
