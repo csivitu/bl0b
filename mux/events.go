@@ -20,7 +20,10 @@ func (m *Mux) UpcomingEvents(ds *discordgo.Session, dm *discordgo.Message, ctx *
 	numberOfEvents := 3
 	events, err := DB.GetEventsByStatus(utils.Upcoming)
 
-	events = events[:numberOfEvents]
+	if len(events) > numberOfEvents {
+		events = events[:numberOfEvents]
+	}
+
 	if err != nil {
 		log.Println(err)
 	}
