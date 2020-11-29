@@ -7,6 +7,7 @@ services:
     depends_on:
       - db
     entrypoint: ['./wait-for-it', '-w', 'db:3306', '-t', '60', '--', '/app/bl0b']
+    restart: on-failure
   db:
     image: mysql
     ports:
