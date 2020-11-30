@@ -6,7 +6,8 @@ services:
       - .env.prod
     depends_on:
       - db
-    entrypoint: ['./wait-for-it', '-w', 'db:3306', '--', '/app/bl0b']
+    entrypoint: ['./wait-for-it', '-w', 'db:3306', '-t', '60', '--', '/app/bl0b']
+    restart: on-failure
   db:
     image: mysql
     ports:
@@ -14,3 +15,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
     restart: on-failure
+    volumes:
+      - bl0b-data:/var/lib/mysql
+
+volumes:
+  bl0b-data:
