@@ -18,7 +18,7 @@
   <h3 align="center">bl0b</h3>
 
   <p align="center">
-    YOUR_SHORT_DESCRIPTION
+    A discord bot to notify you about upcoming CTFs from CTFtime, and more.
     <br />
     <a href="https://github.com/csivitu/bl0b"><strong>Explore the docs »</strong></a>
     <br />
@@ -52,54 +52,88 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+![bl0b screenshot](./assets/images/bl0b-sample.png)
 
-Here's a blank template to get started:
-**To avoid retyping too much info. Do a search and replace with your text editor for the following:**
-`csivitu`, `bl0b`, `twitter_handle`, `email`
 
 
 ### Built With
 
-* []()
-* []()
-* []()
+* [golang](https://golang.org)
+* [discordgo](https://github.com/bwmarrin/discordgo)
+* [sqlx](https://github.com/jmoiron/sqlx)
 
 
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To get a local copy up and running follow these simple steps.
+The recommended way of deploying `bl0b` on your server is using `docker`.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-```sh
-npm install npm@latest -g
-```
+* docker
+* docker-compose
+
+You can install docker and docker-compose with the help of the following links.
+
+- docker: https://docs.docker.com/engine/install/
+- docker-compose: https://docs.docker.com/compose/install/
 
 ### Installation
+
+Assuming you have already obtained a bot token from `Discord`, you need to follow these steps to get the bot up and running.
  
-1. Clone the repo
+1. Clone the repo and `cd` into it.
 ```sh
 git clone https://github.com/csivitu/bl0b.git
-```
-2. Install NPM packages
-```sh
-npm install
+cd bl0b
 ```
 
+2. Create a file called `.env.prod` to store all the secrets (environment variables). Here's a sample:
+
+```sh
+DG_TOKEN=Bot Asf1fa94jfn1n3nfeqafn4231.saf1F3.Asff_dadfVdaw1354f_d-0NsMLSofpg
+DB_USER=root
+DB_PASS=root
+DB_IP=db
+DB_PORT=3306
+```
+
+The configuration above will work directly if you replace the token `Asf1fa94jfn1n3nfeqafn4231.saf1F3.Asff_dadfVdaw1354f_d-0NsMLSofpg` with your `Discord` bot token.
+
+Here are some things to note:
+* The DG_TOKEN _must_ have the prefix `Bot `. If the token you got from `Discord` does not begin with `Bot `, prepend it to the string as show in the sample above.
+* If you're using `docker-compose`, make sure the `DB_IP` is `db`, i.e, the name of the service responsible for running the `mysql` database.
+* The `DB_USER` must have permission to create a database, which is why it's easiest to set it to `root` if you're using the `docker-compose` way. If not, it is **not** recommended to set `DB_USER` to root, instead, create a `database` called `bl0b` and grant all permissions on that database to the `DB_USER`.
+
+3. Run `bl0b` using `docker-compose`.
+```sh
+docker-compose up -d --build
+```
+
+Congratulations! You have `bl0b` up and running.
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Once you add `bl0b` to your server, you can request the help menu using the following command:
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+```sh
+bl0b help
+```
 
+Alternatively, you can tag the bot or send it a DM.
+
+```sh
+# Tagging the bot
+@bl0b help
+
+# DM-ing the bot
+help
+```
+
+The help menu lists all the commands you can use!
 
 
 <!-- ROADMAP -->
