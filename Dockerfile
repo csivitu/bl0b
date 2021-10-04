@@ -1,4 +1,4 @@
-FROM golang:1.15.5-alpine3.12 AS prepare
+FROM golang:1.17.1-alpine3.14 AS prepare
 RUN apk update && apk add --no-cache ca-certificates
 
 WORKDIR /app
@@ -9,7 +9,7 @@ COPY go.sum .
 RUN go mod download
 RUN go mod verify
 
-RUN wget -q https://github.com/roerohan/wait-for-it/releases/download/v0.2.4/wait-for-it
+RUN wget -q https://github.com/roerohan/wait-for-it/releases/download/v0.2.9/wait-for-it
 RUN chmod +x ./wait-for-it
 
 FROM prepare AS build
