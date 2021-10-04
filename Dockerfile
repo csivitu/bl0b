@@ -1,4 +1,4 @@
-FROM golang:1.15.5-alpine3.12 AS prepare
+FROM golang:1.17.1-alpine3.14 AS prepare
 RUN apk update && apk add --no-cache ca-certificates
 
 WORKDIR /app
