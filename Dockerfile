@@ -9,7 +9,7 @@ COPY go.sum .
 RUN go mod download
 RUN go mod verify
 
-RUN wget -q https://github.com/roerohan/wait-for-it/releases/download/v0.2.4/wait-for-it
+RUN wget -q https://github.com/roerohan/wait-for-it/releases/download/v0.2.9/wait-for-it
 RUN chmod +x ./wait-for-it
 
 FROM prepare AS build
